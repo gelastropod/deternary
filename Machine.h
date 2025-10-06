@@ -8,7 +8,7 @@
 class Machine {
 public:
 	Cell accumulator, instructionPointer, instructionRegister, addressRegister, dataRegister, stackPointer;
-	Cell input, output;
+	std::queue<Cell> inputs, outputs;
 	int Z = 0, F = 0;
 	bool running = false;
 
@@ -17,9 +17,12 @@ public:
 	void input(Cell in);
 	Cell output();
 
+	void run(Cell startPosition);
+
+	void set(Cell position, Cell data);
+
 private:
 	std::stack<Cell> stack;
-	std::queue<Cell> inputs, outputs;
 
 	Memory memory;
 

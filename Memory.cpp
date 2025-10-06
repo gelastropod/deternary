@@ -56,6 +56,10 @@ Cell Cell::excFirstTrite() {
 	return cell;
 }
 
+int Cell::convertToDecimal() {
+	return T1.convertToDecimal() * Trite::T2 + T2.convertToDecimal() * Trite::T1 + T3.convertToDecimal();
+}
+
 int Cell::umod(int a, int b) {
 	if (a >= b) F = 1;
 	else if (a < 0) F = 2;
@@ -64,10 +68,6 @@ int Cell::umod(int a, int b) {
 	else Z = 1;
 
 	return ((a % b) + b) % b;
-}
-
-int Cell::convertToDecimal() {
-	return T1.convertToDecimal() * Trite::T2 + T2.convertToDecimal() * Trite::T1 + T3.convertToDecimal();
 }
 
 Memory::Memory() {

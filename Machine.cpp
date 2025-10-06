@@ -14,6 +14,17 @@ Cell Machine::output() {
 	return out;
 }
 
+void Machine::run(Cell startPosition) {
+	instructionPointer = startPosition;
+	running = true;
+
+	while (running) advance();
+}
+
+void Machine::set(Cell position, Cell data) {
+	memory[position] = data;
+}
+
 void Machine::advance() {
 	Trite instruction = instructionRegister.T1;
 	Cell location = instructionRegister.excFirstTrite();

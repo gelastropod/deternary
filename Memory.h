@@ -5,9 +5,6 @@
 #include "Trite.h"
 
 class Cell {
-	friend class Machine;
-	friend class Memory;
-
 public:
 	static int Z, F;
 
@@ -28,10 +25,10 @@ public:
 
 	Cell excFirstTrite();
 
+	int convertToDecimal();
+
 private:
 	static int umod(int a, int b);
-
-	int convertToDecimal();
 };
 
 class Memory {

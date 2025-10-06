@@ -128,7 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Machine.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="deternary.cpp" />
     <ClCompile Include="Memory.cpp" />
     <ClCompile Include="Trite.cpp" />
   </ItemGroup>

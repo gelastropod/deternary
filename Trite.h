@@ -1,8 +1,6 @@
 #ifndef TRITE_H
 #define TRITE_H
 
-int umod(int a, int b);
-
 class Trite {
 	friend class Cell;
 	friend class Machine;
