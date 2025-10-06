@@ -6,9 +6,10 @@
 
 class Cell {
 	friend class Machine;
+	friend class Memory;
 
 public:
-	static const int MAX = Trite::T3;
+	static int Z, F;
 
 	Trite T1, T2, T3;
 
@@ -18,16 +19,31 @@ public:
 
 	Cell operator++();
 	Cell operator--();
+	Cell operator+(Cell other);
+	Cell operator-(Cell other);
+	Cell operator*(Cell other);
+	Cell operator/(Cell other);
+
+	bool isNull();
+
+	Cell excFirstTrite();
 
 private:
+	static int umod(int a, int b);
+
 	int convertToDecimal();
 };
 
 class Memory {
+	friend class Machine;
+
 public:
 	std::vector<Cell> data;
 
 	Memory();
+
+private:
+	Cell& operator[](Cell location);
 };
 
 #endif

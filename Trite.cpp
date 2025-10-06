@@ -1,6 +1,8 @@
 #include "Trite.h"
 
 Trite::Trite(int value) {
+	value = umod(value, T1);
+
 	t3 = value % 3;
 	value /= 3;
 	t2 = value % 3;
@@ -17,6 +19,10 @@ Trite Trite::operator=(Trite other) {
 	t2 = other.t2;
 	t3 = other.t3;
 	return other;
+}
+
+int Trite::umod(int a, int b) {
+	return ((a % b) + b) % b;
 }
 
 int Trite::convertToDecimal() {
