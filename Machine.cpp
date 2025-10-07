@@ -16,6 +16,7 @@ Cell Machine::output() {
 
 void Machine::run(Cell startPosition) {
 	instructionPointer = startPosition;
+	instructionRegister = memory[instructionPointer];
 	running = true;
 
 	while (running) advance();
@@ -30,7 +31,7 @@ void Machine::advance() {
 	Cell location = instructionRegister.excFirstTrite();
 
 	addressRegister = location;
-	dataRegister = memory[location];
+	dataRegister = &memory[location];
 
 	(this->*instructions[instruction.convertToDecimal()])();
 
@@ -52,10 +53,10 @@ void Machine::inst2() {
 	outputs.push(accumulator);
 }
 void Machine::inst3() {
-	accumulator = dataRegister;
+	accumulator = *dataRegister;
 }
 void Machine::inst4() {
-	dataRegister = accumulator;
+	*dataRegister = accumulator;
 }
 void Machine::inst5() {
 	accumulator = accumulator + addressRegister;
@@ -74,25 +75,25 @@ void Machine::inst8() {
 	Z = Cell::Z, F = Cell::F;
 }
 void Machine::inst9() {
-	accumulator = memory[dataRegister.excFirstTrite()];
+	accumulator = memory[dataRegister->excFirstTrite()];
 }
 void Machine::inst10() {
-	memory[dataRegister.excFirstTrite()] = accumulator;
+	memory[dataRegister->excFirstTrite()] = accumulator;
 }
 void Machine::inst11() {
-	accumulator = accumulator + dataRegister;
+	accumulator = accumulator + *dataRegister;
 	Z = Cell::Z, F = Cell::F;
 }
 void Machine::inst12() {
-	accumulator = accumulator - dataRegister;
+	accumulator = accumulator - *dataRegister;
 	Z = Cell::Z, F = Cell::F;
 }
 void Machine::inst13() {
-	accumulator = accumulator * dataRegister;
+	accumulator = accumulator * *dataRegister;
 	Z = Cell::Z, F = Cell::F;
 }
 void Machine::inst14() {
-	accumulator = accumulator / dataRegister;
+	accumulator = accumulator / *dataRegister;
 	Z = Cell::Z, F = Cell::F;
 }
 void Machine::inst15() {
@@ -111,7 +112,7 @@ void Machine::inst19() {
 	if (F == 2) instructionPointer = addressRegister - 1;
 }
 void Machine::inst20() {
-	accumulator - dataRegister;
+	accumulator - *dataRegister;
 	Z = Cell::Z, F = Cell::F;
 }
 void Machine::inst21() {

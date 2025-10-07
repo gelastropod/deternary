@@ -7,7 +7,8 @@
 
 class Machine {
 public:
-	Cell accumulator, instructionPointer, instructionRegister, addressRegister, dataRegister, stackPointer;
+	Cell accumulator, instructionPointer, instructionRegister, addressRegister, stackPointer;
+	Cell* dataRegister;
 	std::queue<Cell> inputs, outputs;
 	int Z = 0, F = 0;
 	bool running = false;

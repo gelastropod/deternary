@@ -1,6 +1,7 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
+#include <string>
 #include <vector>
 #include "Trite.h"
 
@@ -12,6 +13,7 @@ public:
 
 	Cell(Trite T1, Trite T2, Trite T3);
 	Cell(int value);
+	Cell(std::string value);
 	Cell();
 
 	Cell operator++();

@@ -19,14 +19,33 @@ Cell::Cell(int value) {
 	T1 = Trite(value % Trite::T1);
 }
 
+int convertChar(char c) {
+	if (c == '0') return 0;
+	return c - '`';
+}
+
+Cell::Cell(std::string value) {
+	T1 = convertChar(value[0]);
+	T2 = convertChar(value[1]);
+	T3 = convertChar(value[2]);
+}
+
 Cell::Cell() {}
 
 Cell Cell::operator++() {
-	return Cell(convertToDecimal() + 1);
+	Cell res = Cell(convertToDecimal() + 1);
+	T1 = res.T1;
+	T2 = res.T2;
+	T3 = res.T3;
+	return *this;
 }
 
 Cell Cell::operator--() {
-	return Cell(convertToDecimal() - 1);
+	Cell res = Cell(convertToDecimal() - 1);
+	T1 = res.T1;
+	T2 = res.T2;
+	T3 = res.T3;
+	return *this;
 }
 
 Cell Cell::operator+(Cell other) {

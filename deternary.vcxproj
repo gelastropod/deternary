@@ -137,6 +137,11 @@
     <ClInclude Include="Memory.h" />
     <ClInclude Include="Trite.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="program.den" />
+    <None Include="sample.in" />
+    <None Include="sample.out" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

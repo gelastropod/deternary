@@ -31,10 +31,12 @@ int main(int argc, char* argv[]) {
 	Machine machine;
 
 	int index = 0, data, startPosition;
+	std::string sData;
+
 	programFile >> startPosition;
 	while (index < Trite::T2 && !programFile.eof()) {
-		programFile >> data;
-		machine.set(Cell(index), Cell(data));
+		programFile >> sData;
+		machine.set(Cell(index), Cell(sData));
 		index++;
 	}
 
