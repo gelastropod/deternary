@@ -65,6 +65,18 @@ Cell Cell::operator/(Cell other) {
 	return Cell(convertToDecimal() / other.convertToDecimal());
 }
 
+bool Cell::operator<=(Cell other) {
+	return convertToDecimal() <= other.convertToDecimal();
+}
+
+bool Cell::operator>=(Cell other) {
+	return convertToDecimal() >= other.convertToDecimal();
+}
+
+bool Cell::operator==(Cell other) {
+	return convertToDecimal() == other.convertToDecimal();
+}
+
 bool Cell::isNull() {
 	return convertToDecimal() == 0;
 }
@@ -77,6 +89,15 @@ Cell Cell::excFirstTrite() {
 
 int Cell::convertToDecimal() {
 	return T1.convertToDecimal() * Trite::T2 + T2.convertToDecimal() * Trite::T1 + T3.convertToDecimal();
+}
+
+std::string Cell::convTrite(Trite trite) {
+	if (trite.convertToDecimal() == 0) return "0";
+	return std::string(1, '`' + trite.convertToDecimal());
+}
+
+std::string Cell::toString() {
+	return convTrite(T1) + convTrite(T2) + convTrite(T3);
 }
 
 int Cell::umod(int a, int b) {

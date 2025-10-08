@@ -23,11 +23,18 @@ public:
 	Cell operator*(Cell other);
 	Cell operator/(Cell other);
 
+	bool operator<=(Cell other);
+	bool operator>=(Cell other);
+	bool operator==(Cell other);
+
 	bool isNull();
 
 	Cell excFirstTrite();
 
 	int convertToDecimal();
+
+	static std::string convTrite(Trite trite);
+	std::string toString();
 
 private:
 	static int umod(int a, int b);

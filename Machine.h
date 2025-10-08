@@ -18,9 +18,14 @@ public:
 	void input(Cell in);
 	Cell output();
 
+	Cell getInput();
+	Cell getOutput();
+
 	void run(Cell startPosition);
 
 	void set(Cell position, Cell data);
+
+	Cell operator[](Cell position);
 
 private:
 	std::stack<Cell> stack;

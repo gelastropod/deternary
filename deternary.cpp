@@ -1,8 +1,11 @@
 #include <fstream>
 #include <iostream>
+#include <Windows.h>
 #include "Machine.h"
+#include "MainConsole.h"
 
 #define TESTING 1
+#define TESTCONSOLE 1
 
 #if TESTING
 int main(int argc, char* argV[]) {
@@ -13,6 +16,12 @@ int main(int argc, char* argv[]) {
 		std::cerr << "Invalid format: deternary [program] [input] [output]" << std::endl;
 		return -1;
 	}
+#endif
+
+#if TESTCONSOLE
+	MainConsole mainConsole;
+	mainConsole.start();
+	return 0;
 #endif
 
 	std::ifstream programFile(argv[1]);

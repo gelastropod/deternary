@@ -127,14 +127,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Console.cpp" />
+    <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="Machine.cpp" />
     <ClCompile Include="deternary.cpp" />
     <ClCompile Include="Memory.cpp" />
+    <ClCompile Include="MainConsole.cpp" />
     <ClCompile Include="Trite.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Console.h" />
     <ClInclude Include="Machine.h" />
     <ClInclude Include="Memory.h" />
+    <ClInclude Include="MainConsole.h" />
     <ClInclude Include="Trite.h" />
   </ItemGroup>
   <ItemGroup>

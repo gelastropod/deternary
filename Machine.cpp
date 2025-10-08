@@ -1,6 +1,8 @@
 #include "Machine.h"
 
-Machine::Machine() {}
+Machine::Machine() {
+	dataRegister = &memory[0];
+}
 
 void Machine::input(Cell in) {
 	inputs.push(in);
@@ -14,6 +16,16 @@ Cell Machine::output() {
 	return out;
 }
 
+Cell Machine::getInput() {
+	if (inputs.empty()) return 0;
+	return inputs.front();
+}
+
+Cell Machine::getOutput() {
+	if (outputs.empty()) return 0;
+	return outputs.front();
+}
+
 void Machine::run(Cell startPosition) {
 	instructionPointer = startPosition;
 	instructionRegister = memory[instructionPointer];
@@ -24,6 +36,10 @@ void Machine::run(Cell startPosition) {
 
 void Machine::set(Cell position, Cell data) {
 	memory[position] = data;
+}
+
+Cell Machine::operator[](Cell position) {
+	return memory[position];
 }
 
 void Machine::advance() {
