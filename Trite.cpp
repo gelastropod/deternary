@@ -21,6 +21,10 @@ Trite Trite::operator=(Trite other) {
 	return other;
 }
 
+Trite Trite::operator+(Trite other) {
+	return Trite((convertToDecimal() + other.convertToDecimal()) % T1);
+}
+
 int Trite::umod(int a, int b) {
 	return ((a % b) + b) % b;
 }

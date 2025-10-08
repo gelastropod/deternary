@@ -65,6 +65,14 @@ Cell Cell::operator/(Cell other) {
 	return Cell(convertToDecimal() / other.convertToDecimal());
 }
 
+bool Cell::operator<(Cell other) {
+	return convertToDecimal() < other.convertToDecimal();
+}
+
+bool Cell::operator>(Cell other) {
+	return convertToDecimal() > other.convertToDecimal();
+}
+
 bool Cell::operator<=(Cell other) {
 	return convertToDecimal() <= other.convertToDecimal();
 }
@@ -75,6 +83,10 @@ bool Cell::operator>=(Cell other) {
 
 bool Cell::operator==(Cell other) {
 	return convertToDecimal() == other.convertToDecimal();
+}
+
+bool Cell::operator!=(Cell other) {
+	return !operator==(other);
 }
 
 bool Cell::isNull() {

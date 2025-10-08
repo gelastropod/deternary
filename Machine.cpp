@@ -38,7 +38,7 @@ void Machine::set(Cell position, Cell data) {
 	memory[position] = data;
 }
 
-Cell Machine::operator[](Cell position) {
+Cell& Machine::operator[](Cell position) {
 	return memory[position];
 }
 

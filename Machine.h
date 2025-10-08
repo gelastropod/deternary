@@ -25,7 +25,7 @@ public:
 
 	void set(Cell position, Cell data);
 
-	Cell operator[](Cell position);
+	Cell& operator[](Cell position);
 
 private:
 	std::stack<Cell> stack;

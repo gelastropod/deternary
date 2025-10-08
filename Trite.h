@@ -15,6 +15,8 @@ public:
 
 	Trite operator=(Trite other);
 
+	Trite operator+(Trite other);
+
 private:
 	int umod(int a, int b);
 

@@ -19,7 +19,6 @@ private:
 	int testProgress = 0;
 
 	int memoryBegin = 0;
-	int pointerPosition = 0;
 	int pointerType = 0;
 
 	static const std::pair<int, int> positions[];

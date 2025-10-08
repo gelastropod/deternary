@@ -23,9 +23,12 @@ public:
 	Cell operator*(Cell other);
 	Cell operator/(Cell other);
 
+	bool operator<(Cell other);
+	bool operator>(Cell other);
 	bool operator<=(Cell other);
 	bool operator>=(Cell other);
 	bool operator==(Cell other);
+	bool operator!=(Cell other);
 
 	bool isNull();
 

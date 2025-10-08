@@ -55,18 +55,47 @@ void MainConsole::compute(double elapsedTime) {
 #if TESTPROGRAM
 	if (key == 'a') {
 		if (pointerType == 0) {
-			if (pointerPosition != 0) {
-				pointerPosition--;
+			if (machine.instructionPointer != 0) {
+				--machine.instructionPointer;
 			}
-			if (pointerPosition < memoryBegin) memoryBegin--;
+			if (machine.instructionPointer < memoryBegin) memoryBegin--;
+			machine.instructionRegister = machine[machine.instructionPointer];
+		}
+		
+		if (pointerType == 1) {
+			machine.instructionRegister.T1 = machine.instructionRegister.T1 + Trite(Trite::T1 - 1);
+			machine[machine.instructionPointer].T1 = machine[machine.instructionPointer].T1 + Trite(Trite::T1 - 1);
+		}
+		if (pointerType == 2) {
+			machine.instructionRegister.T2 = machine.instructionRegister.T2 + Trite(Trite::T1 - 1);
+			machine[machine.instructionPointer].T2 = machine[machine.instructionPointer].T2 + Trite(Trite::T1 - 1);
+		}
+		if (pointerType == 3) {
+			machine.instructionRegister.T3 = machine.instructionRegister.T3 + Trite(Trite::T1 - 1);
+			machine[machine.instructionPointer].T3 = machine[machine.instructionPointer].T3 + Trite(Trite::T1 - 1);
 		}
 	}
+
 	if (key == 'd') {
 		if (pointerType == 0) {
-			if (pointerPosition != Trite::T2 - 1) {
-				pointerPosition++;
+			if (machine.instructionPointer != Trite::T2 - 1) {
+				++machine.instructionPointer;
 			}
-			if (pointerPosition > memoryBegin + H - 3) memoryBegin++;
+			if (machine.instructionPointer > memoryBegin + H - 3) memoryBegin++;
+			machine.instructionRegister = machine[machine.instructionPointer];
+		}
+
+		if (pointerType == 1) {
+			machine.instructionRegister.T1 = machine.instructionRegister.T1 + 1;
+			machine[machine.instructionPointer].T1 = machine[machine.instructionPointer].T1 + 1;
+		}
+		if (pointerType == 2) {
+			machine.instructionRegister.T2 = machine.instructionRegister.T2 + 1;
+			machine[machine.instructionPointer].T2 = machine[machine.instructionPointer].T2 + 1;
+		}
+		if (pointerType == 3) {
+			machine.instructionRegister.T3 = machine.instructionRegister.T3 + 1;
+			machine[machine.instructionPointer].T3 = machine[machine.instructionPointer].T3 + 1;
 		}
 	}
 
@@ -146,7 +175,7 @@ void MainConsole::display(double elapsedTime) {
 #if TESTPROGRAM
 	for (Cell i = Cell(memoryBegin); i - memoryBegin + 2 <= Cell(H) - 1; ++i) {
 		moveCursor(W - 13, (i - memoryBegin + 2).convertToDecimal());
-		print((i == pointerPosition ? ">" : " "));
+		print((i == machine.instructionPointer ? ">" : " "));
 
 		moveCursor(2, 0, true);
 		print(Cell::convTrite(i.T2));
