@@ -27,6 +27,8 @@ protected:
 	void moveCursor(int x, int y, bool rel = false);
 	void print(std::string value);
 
+	void clear();
+
 private:
 	void clearScreen();
 	void resetCursor();

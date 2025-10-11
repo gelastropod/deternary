@@ -71,6 +71,14 @@ void Console::showCursor() {
 	std::cout << "\033[?25h";
 }
 
+void Console::clear() {
+	for (int i = 0; i < H; i++) {
+		for (int j = 0; j < W; j++) {
+			grid[i][j] = ' ';
+		}
+	}
+}
+
 void Console::flush() {
 	for (int i = 0; i < H; i++) {
 		std::cout << grid[i];

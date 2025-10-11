@@ -18,21 +18,18 @@ public:
 	void input(Cell in);
 	Cell output();
 
-	Cell getInput();
-	Cell getOutput();
-
 	void run(Cell startPosition);
 
 	void set(Cell position, Cell data);
 
 	Cell& operator[](Cell position);
 
+	void advance();
+
 private:
 	std::stack<Cell> stack;
 
 	Memory memory;
-
-	void advance();
 
 	void inst0();
 	void inst1();

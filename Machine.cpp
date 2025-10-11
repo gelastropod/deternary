@@ -16,16 +16,6 @@ Cell Machine::output() {
 	return out;
 }
 
-Cell Machine::getInput() {
-	if (inputs.empty()) return 0;
-	return inputs.front();
-}
-
-Cell Machine::getOutput() {
-	if (outputs.empty()) return 0;
-	return outputs.front();
-}
-
 void Machine::run(Cell startPosition) {
 	instructionPointer = startPosition;
 	instructionRegister = memory[instructionPointer];
@@ -51,8 +41,10 @@ void Machine::advance() {
 
 	(this->*instructions[instruction.convertToDecimal()])();
 
-	++instructionPointer;
-	instructionRegister = memory[instructionPointer];
+	if (running) {
+		++instructionPointer;
+		instructionRegister = memory[instructionPointer];
+	}
 }
 
 void Machine::inst0() {}

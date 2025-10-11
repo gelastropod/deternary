@@ -2,13 +2,25 @@
 #define TEST_CONSOLE_H
 
 #include <cmath>
+#include <fstream>
 #include <string>
+#include <windows.h>
 #include "Console.h"
 #include "Machine.h"
 
 class MainConsole : public Console {
 private:
+	bool options = false;
+
 	double totalTime = 0.;
+	double prevIter = 0.;
+	double iterTime = 1.;
+
+	bool testing = true;
+	bool lock = false;
+	bool done = false;
+	int mode = 0;
+	int cachex, cachey;
 
 	char prev = ' ';
 	static const std::string cursor;
@@ -20,6 +32,8 @@ private:
 
 	int memoryBegin = 0;
 	int pointerType = 0;
+
+	Cell input, output;
 
 	static const std::pair<int, int> positions[];
 

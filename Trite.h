@@ -14,6 +14,7 @@ public:
 	Trite();
 
 	Trite operator=(Trite other);
+	bool operator==(Trite other);
 
 	Trite operator+(Trite other);
 
