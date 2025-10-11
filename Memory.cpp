@@ -108,7 +108,7 @@ std::string Cell::convTrite(Trite trite) {
 	return std::string(1, '`' + trite.convertToDecimal());
 }
 
-std::string Cell::toString() {
+std::string Cell::toString() const {
 	return convTrite(T1) + convTrite(T2) + convTrite(T3);
 }
 

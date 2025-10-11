@@ -1,6 +1,7 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
+#include <iostream>
 #include <string>
 #include <vector>
 #include "Trite.h"
@@ -37,7 +38,7 @@ public:
 	int convertToDecimal();
 
 	static std::string convTrite(Trite trite);
-	std::string toString();
+	std::string toString() const;
 
 private:
 	static int umod(int a, int b);

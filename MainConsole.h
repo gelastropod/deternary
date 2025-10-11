@@ -1,6 +1,9 @@
 #ifndef TEST_CONSOLE_H
 #define TEST_CONSOLE_H
 
+#define NOMINMAX
+
+#include <algorithm>
 #include <cmath>
 #include <fstream>
 #include <string>
@@ -25,12 +28,16 @@ private:
 	char prev = ' ';
 	static const std::string cursor;
 
+	std::vector<std::string> fileNames;
+
 	Machine machine;
 
 	Cell testNumber;
 	int testProgress = 0;
 
 	int memoryBegin = 0;
+	int fileBegin = 0;
+	int pointerPosition = 0;
 	int pointerType = 0;
 
 	Cell input, output;
