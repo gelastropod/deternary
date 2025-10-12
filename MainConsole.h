@@ -5,11 +5,13 @@
 
 #include <algorithm>
 #include <cmath>
+#include <format>
 #include <fstream>
 #include <string>
 #include <windows.h>
 #include "Console.h"
 #include "Machine.h"
+#include "Task.h"
 
 class MainConsole : public Console {
 private:
@@ -17,7 +19,8 @@ private:
 
 	double totalTime = 0.;
 	double prevIter = 0.;
-	double iterTime = 1.;
+	static const std::vector<double> iterTimes;
+	int iterIndex = 4;
 
 	bool testing = true;
 	bool lock = false;
@@ -34,6 +37,7 @@ private:
 
 	Cell testNumber;
 	int testProgress = 0;
+	static const std::vector<Task> tasks;
 
 	int memoryBegin = 0;
 	int fileBegin = 0;

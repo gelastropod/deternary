@@ -44,6 +44,8 @@ private:
 	static int umod(int a, int b);
 };
 
+std::istream& operator>>(std::istream& is, Cell& cell);
+
 class Memory {
 	friend class Machine;
 

@@ -2,6 +2,15 @@
 
 const std::string MainConsole::cursor = "_";
 
+const std::vector<double> MainConsole::iterTimes = {
+	0.05,
+	0.1,
+	0.2,
+	0.5,
+	1.0,
+	2.0
+};
+
 const std::pair<int, int> MainConsole::positions[] = {
 	{3, 6},
 	{3, 9},
@@ -47,7 +56,7 @@ void MainConsole::begin() {
 void MainConsole::frame(double elapsedTime) {
 	totalTime += elapsedTime;
 
-	if (machine.running && (totalTime - prevIter > iterTime)) {
+	if (machine.running && (totalTime - prevIter > iterTimes[iterIndex])) {
 		if (machine.instructionRegister.T1 == 2) {
 			machine.advance();
 			output = machine.output();
@@ -161,7 +170,7 @@ void MainConsole::compute(double elapsedTime) {
 				}
 
 				machine.running = true;
-				prevIter = totalTime - iterTime;
+				prevIter = totalTime - iterTimes[iterIndex];
 			}
 			else {
 				machine.running = false;
@@ -169,31 +178,41 @@ void MainConsole::compute(double elapsedTime) {
 			}
 		}
 
-		if (key == 'w') {
-			if (machine.running && !lock) {
-				iterTime = 0.5 / iterTime;
-			}
-			else {
-				testing = !testing;
-			}
+		if (key == 'w' && !machine.running) {
+			testing = !testing;
 		}
 	}
 	else {
-		if (key2 == 75 || key2 == 77) {
+		if (key2 == 75) {
 			if (mode == 0) {
-				pointerType = 1 - pointerType;
+				pointerType += 2;
+				pointerType %= 3;
 			}
 			else if (mode == 2) {
-				if (key2 == 77 && pointerPosition < fileNames.size() - 1) {
-					pointerPosition++;
+				pointerPosition += fileNames.size() - 1;
+				pointerPosition %= fileNames.size();
 
-					if (pointerPosition >= fileBegin + 6) fileBegin++;
-				}
-				else if (key2 == 75 && pointerPosition > 0) {
-					pointerPosition--;
+				if (pointerPosition < fileBegin) fileBegin--;
+			}
+			else if (mode == 3) {
+				iterIndex += iterTimes.size() - 1;
+				iterIndex %= iterTimes.size();
+			}
+		}
+		if (key2 == 77) {
+			if (mode == 0) {
+				pointerType++;
+				pointerType %= 3;
+			}
+			else if (mode == 2) {
+				pointerPosition++;
+				pointerPosition %= fileNames.size();
 
-					if (pointerPosition < fileBegin) fileBegin--;
-				}
+				if (pointerPosition >= fileBegin + 6) fileBegin++;
+			}
+			else if (mode == 3) {
+				iterIndex++;
+				iterIndex %= iterTimes.size();
 			}
 		}
 
@@ -202,13 +221,13 @@ void MainConsole::compute(double elapsedTime) {
 				if (pointerType == 0) {
 					mode = 1;
 
-					moveCursor(15, 4);
+					moveCursor(18, 4);
 					print("Enter name:");
-					moveCursor(27, 4);
+					moveCursor(30, 4);
 
 					cachex = x, cachey = y;
 				}
-				else {
+				else if (pointerType == 1) {
 					mode = 2;
 
 					fileNames.clear();
@@ -231,24 +250,30 @@ void MainConsole::compute(double elapsedTime) {
 						fileNames.push_back(fileName);
 					} while (FindNextFile(hFind, &fd));
 				}
+				else {
+					mode = 3;
+				}
 			}
-			else if (mode == 1 && cachex != 27) {
-				std::string name = grid[4].substr(27, cachex - 27);
-
+			else if (mode == 1) {
 				moveCursor(15, 4);
 				print(std::string(W - 15, ' '));
 
 				mode = 0;
-
-				std::ofstream savedFile("saved/" + name + ".den");
-
-				savedFile << testNumber.toString() << ' ' << testProgress << '\n';
-				savedFile << machine.accumulator.toString() << ' ' << machine.instructionPointer.toString() << ' '
-					<< machine.instructionRegister.toString() << ' ' << machine.addressRegister.toString() << ' '
-					<< machine.stackPointer.toString() << '\n';
 				
-				for (Cell i = 0; i <= Trite::T2 - 1; ++i) {
-					savedFile << machine[i].toString() << '\n';
+				if (cachex != 30) {
+					std::string name = grid[4].substr(30, cachex - 30);
+
+					std::ofstream savedFile("saved/" + name + ".den");
+
+					savedFile << testNumber.toString() << ' ' << testProgress << ' ' << testing << '\n';
+					savedFile << machine.accumulator.toString() << ' ' << machine.instructionPointer.toString() << ' '
+						<< machine.instructionRegister.toString() << ' ' << machine.addressRegister.toString() << ' '
+						<< machine.stackPointer.toString() << '\n';
+					savedFile << input.toString() << ' ' << output.toString() << '\n';
+
+					for (Cell i = 0; i <= Trite::T2 - 1; ++i) {
+						savedFile << machine[i].toString() << '\n';
+					}
 				}
 			}
 			else if (mode == 2) {
@@ -256,19 +281,27 @@ void MainConsole::compute(double elapsedTime) {
 
 				if (pointerPosition == 0) return;
 
+				std::ifstream savedFile("saved/" + fileNames[pointerPosition] + ".den");
+
+				savedFile >> testNumber >> testProgress >> testing;
+				savedFile >> machine.accumulator >> machine.instructionPointer
+					>> machine.instructionRegister >> machine.addressRegister
+					>> machine.stackPointer;
+				savedFile >> input >> output;
+
+				for (Cell i = 0; i <= Trite::T2 - 1; ++i) {
+					savedFile >> machine[i];
+				}
+
 				options = false;
 				pointerType = 0;
 
 				clear();
 				begin();
 			}
-		}
-
-		if (key2 == 80 && mode == 1) {
-			moveCursor(15, 4);
-			print(std::string(W - 15, ' '));
-
-			mode = 0;
+			else if (mode == 3) {
+				mode = 0;
+			}
 		}
 
 		if (mode == 1) {
@@ -279,7 +312,7 @@ void MainConsole::compute(double elapsedTime) {
 					print(std::string(1, key));
 					moveCursor(1, 0, true);
 				}
-				else if (key == 8 && cachex > 27) {
+				else if (key == 8 && cachex > 30) {
 					print(std::string(1, prev));
 					moveCursor(-1, 0, true);
 					print(" ");
@@ -320,6 +353,9 @@ void MainConsole::compute(double elapsedTime) {
 
 			moveCursor(5, 6);
 			print("Load");
+
+			moveCursor(5, 8);
+			print("Process Speed");
 
 			pointerType = 0;
 		}
@@ -440,37 +476,43 @@ void MainConsole::display(double elapsedTime) {
 		print(">");
 	}
 	else {
-		if (pointerType == 0) {
-			moveCursor(3, 4);
-			print(">");
-			moveCursor(3, 6);
-			print(" ");
-		}
-		else {
-			moveCursor(3, 4);
-			print(" ");
-			moveCursor(3, 6);
-			print(">");
+		moveCursor(3, 4);
+		for (int i = 0; i < 3; i++) {
+			print((i == pointerType ? ">" : " "));
+			moveCursor(0, 2, true);
 		}
 		
-		moveCursor(18, 6);
 		if (mode == 2) {
+			moveCursor(28, 6);
+
 			for (int i = fileBegin; i < std::min(fileBegin + 6, (int)fileNames.size()); i++) {
 				print(i == pointerPosition ? ">" : " ");
 
 				moveCursor(2, 0, true);
 				std::string currentFileName = fileNames[i];
-				currentFileName += std::string(W - 20 - currentFileName.size(), ' ');
+				currentFileName += std::string(W - 30 - currentFileName.size(), ' ');
 				print(currentFileName);
 
 				moveCursor(-2, 2, true);
 			}
 		}
 		else {
+			moveCursor(25, 6);
+
 			for (int i = 0; i < 6; i++) {
-				print(std::string(W - 18, ' '));
+				print(std::string(W - 28, ' '));
 				moveCursor(0, 2, true);
 			}
+		}
+
+		if (mode == 3) {
+			moveCursor(28, 8);
+			print("<");
+			moveCursor(34, 8);
+			print("s >");
+
+			moveCursor(30, 8);
+			print(std::format("{:.2f}", iterTimes[iterIndex]));
 		}
 	}
 }

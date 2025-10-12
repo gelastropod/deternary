@@ -122,6 +122,13 @@ int Cell::umod(int a, int b) {
 	return ((a % b) + b) % b;
 }
 
+std::istream& operator>>(std::istream& is, Cell& cell) {
+	std::string data;
+	is >> data;
+	cell = data;
+	return is;
+}
+
 Memory::Memory() {
 	data.resize(Trite::T2, Cell());
 }
