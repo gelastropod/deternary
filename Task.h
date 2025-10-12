@@ -7,6 +7,8 @@
 
 struct Test {
 	std::queue<int> inputs, outputs;
+
+	bool operator()(std::queue<int> toTest);
 };
 
 using Task = std::function<Test(int)>;

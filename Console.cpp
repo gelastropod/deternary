@@ -13,7 +13,7 @@ void Console::start() {
 
 	double prev = getTimeSeconds();
 
-	while (key != 27) {
+	while (key != 27 && !shouldEnd) {
 		key = key2 = -1;
 		if (_kbhit()) {
 			key = _getch();

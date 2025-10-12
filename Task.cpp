@@ -1,6 +1,24 @@
 #include "MainConsole.h"
 #include "Task.h"
 
+bool Test::operator()(std::queue<int> toTest) {
+	if (outputs.size() != toTest.size()) {
+		return false;
+	}
+
+	std::queue<int> cOutputs = outputs;
+	while (cOutputs.size()) {
+		if (cOutputs.front() != toTest.front()) {
+			return false;
+		}
+
+		cOutputs.pop();
+		toTest.pop();
+	}
+
+	return true;
+}
+
 std::random_device rd;
 std::mt19937 gen(rd());
 

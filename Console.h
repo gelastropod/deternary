@@ -22,6 +22,8 @@ protected:
 	int key = -1, key2 = -1;
 	int x = 0, y = 0;
 
+	bool shouldEnd = false;
+
 	std::vector<std::string> grid;
 
 	void moveCursor(int x, int y, bool rel = false);

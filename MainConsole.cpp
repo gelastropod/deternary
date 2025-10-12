@@ -60,13 +60,43 @@ void MainConsole::frame(double elapsedTime) {
 		if (machine.instructionRegister.T1 == 2) {
 			machine.advance();
 			output = machine.output();
+			outputs.push(output.convertToDecimal());
 		}
-		else if (machine.instructionRegister.T1 == 1 && !testing && !done) {
-			machine.running = false;
-			lock = true;
+		else if (machine.instructionRegister.T1 == 1) {
+			if (!testing && !done) {
+				machine.running = false;
+				lock = true;
+			}
+			else if (testing) {
+				input = test.inputs.front();
+				test.inputs.pop();
+
+				machine.input(input);
+				machine.advance();
+			}
 		}
 		else {
 			machine.advance();
+		}
+
+		if (machine.instructionRegister.T1 == Trite::T1 - 1 && testing) {
+			if (test(outputs)) {
+				testProgress++;
+
+				if (testProgress == 16) {
+					testProgress = 0;
+					++testNumber;
+				}
+			}
+			else {
+				testProgress = 0;
+			}
+
+			machine.running = false;
+
+			if (testNumber == tasks.size()) {
+				shouldEnd = true;
+			}
 		}
 
 		done = false;
@@ -169,12 +199,24 @@ void MainConsole::compute(double elapsedTime) {
 					done = true;
 				}
 
+				while (outputs.size()) {
+					outputs.pop();
+				}
+
 				machine.running = true;
 				prevIter = totalTime - iterTimes[iterIndex];
 			}
 			else {
+				if (testing) {
+					testProgress = 0;
+				}
+
 				machine.running = false;
 				lock = false;
+			}
+
+			if (testing) {
+				test = tasks[testNumber.convertToDecimal()](testProgress);
 			}
 		}
 
@@ -185,8 +227,8 @@ void MainConsole::compute(double elapsedTime) {
 	else {
 		if (key2 == 75) {
 			if (mode == 0) {
-				pointerType += 2;
-				pointerType %= 3;
+				pointerType += 4;
+				pointerType %= 5;
 			}
 			else if (mode == 2) {
 				pointerPosition += fileNames.size() - 1;
@@ -198,11 +240,17 @@ void MainConsole::compute(double elapsedTime) {
 				iterIndex += iterTimes.size() - 1;
 				iterIndex %= iterTimes.size();
 			}
+			else if (mode == 4) {
+				runHelper = !runHelper;
+			}
+			else if (mode == 5) {
+
+			}
 		}
 		if (key2 == 77) {
 			if (mode == 0) {
 				pointerType++;
-				pointerType %= 3;
+				pointerType %= 5;
 			}
 			else if (mode == 2) {
 				pointerPosition++;
@@ -213,6 +261,12 @@ void MainConsole::compute(double elapsedTime) {
 			else if (mode == 3) {
 				iterIndex++;
 				iterIndex %= iterTimes.size();
+			}
+			else if (mode == 4) {
+				runHelper = !runHelper;
+			}
+			else if (mode == 5) {
+
 			}
 		}
 
@@ -242,16 +296,23 @@ void MainConsole::compute(double elapsedTime) {
 					}
 
 					do {
-						if (strcmp(fd.cFileName, ".") == 0 || strcmp(fd.cFileName, "..") == 0)
+						if (strcmp(fd.cFileName, ".") == 0 || strcmp(fd.cFileName, "..") == 0) {
 							continue;
+						}
 
 						std::string fileName = std::string(fd.cFileName);
 						fileName = fileName.substr(0, fileName.size() - 4);
 						fileNames.push_back(fileName);
 					} while (FindNextFile(hFind, &fd));
 				}
-				else {
+				else if (pointerType == 2) {
 					mode = 3;
+				}
+				else if (pointerType == 3) {
+					mode = 4;
+				}
+				else if (pointerType == 4) {
+					mode = 5;
 				}
 			}
 			else if (mode == 1) {
@@ -301,6 +362,12 @@ void MainConsole::compute(double elapsedTime) {
 			}
 			else if (mode == 3) {
 				mode = 0;
+			}
+			else if (mode == 4) {
+				
+			}
+			else if (mode == 5) {
+
 			}
 		}
 
@@ -357,6 +424,12 @@ void MainConsole::compute(double elapsedTime) {
 			moveCursor(5, 8);
 			print("Process Speed");
 
+			moveCursor(5, 10);
+			print("Run Helper");
+
+			moveCursor(5, 12);
+			print("Start Address");
+
 			pointerType = 0;
 		}
 	}
@@ -383,6 +456,15 @@ void MainConsole::displayCell(Cell cell) {
 }
 
 void MainConsole::display(double elapsedTime) {
+	if (shouldEnd) {
+		clear();
+
+		moveCursor(3, 2);
+		print("gg");
+
+		return;
+	}
+
 	if (!options) {
 		for (Cell i = Cell(memoryBegin); i - memoryBegin + 2 <= Cell(H) - 1; ++i) {
 			moveCursor(W - 13, (i - memoryBegin + 2).convertToDecimal());
@@ -477,7 +559,7 @@ void MainConsole::display(double elapsedTime) {
 	}
 	else {
 		moveCursor(3, 4);
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 5; i++) {
 			print((i == pointerType ? ">" : " "));
 			moveCursor(0, 2, true);
 		}
@@ -513,6 +595,16 @@ void MainConsole::display(double elapsedTime) {
 
 			moveCursor(30, 8);
 			print(std::format("{:.2f}", iterTimes[iterIndex]));
+		}
+
+		if (mode == 4) {
+			moveCursor(28, 10);
+			print("<");
+			moveCursor(36, 10);
+			print(">");
+
+			moveCursor(31, 10);
+			print(runHelper ? "ON" : "OFF");
 		}
 	}
 }

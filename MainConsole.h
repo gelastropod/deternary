@@ -38,11 +38,15 @@ private:
 	Cell testNumber;
 	int testProgress = 0;
 	static const std::vector<Task> tasks;
+	Test test;
+	std::queue<int> outputs;
 
 	int memoryBegin = 0;
 	int fileBegin = 0;
 	int pointerPosition = 0;
 	int pointerType = 0;
+
+	bool runHelper = false;
 
 	Cell input, output;
 
