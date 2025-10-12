@@ -47,6 +47,7 @@ private:
 	int pointerType = 0;
 
 	bool runHelper = false;
+	Cell startAddress;
 
 	Cell input, output;
 

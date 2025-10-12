@@ -35,5 +35,12 @@ const std::vector<Task> MainConsole::tasks = {
 		test.inputs.push(x);
 		test.outputs.push(x);
 		return test;
+	},
+	[](int testNumber) {
+		Test test;
+		int x = randomNumber(0, Trite::T3);
+		test.inputs.push(x);
+		test.outputs.push(x);
+		return test;
 	}
 };

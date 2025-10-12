@@ -87,15 +87,26 @@ void MainConsole::frame(double elapsedTime) {
 					testProgress = 0;
 					++testNumber;
 				}
+
+				if (testNumber == tasks.size()) {
+					shouldEnd = true;
+				}
+				else if (runHelper && testProgress != 0) {
+					machine.instructionPointer = startAddress;
+					machine.instructionRegister = machine[startAddress];
+
+					while (outputs.size()) {
+						outputs.pop();
+					}
+
+					test = tasks[testNumber.convertToDecimal()](testProgress);
+				}
+				else {
+					machine.running = false;
+				}
 			}
 			else {
 				testProgress = 0;
-			}
-
-			machine.running = false;
-
-			if (testNumber == tasks.size()) {
-				shouldEnd = true;
 			}
 		}
 
@@ -244,7 +255,8 @@ void MainConsole::compute(double elapsedTime) {
 				runHelper = !runHelper;
 			}
 			else if (mode == 5) {
-
+				pointerPosition += 2;
+				pointerPosition %= 3;
 			}
 		}
 		if (key2 == 77) {
@@ -266,7 +278,8 @@ void MainConsole::compute(double elapsedTime) {
 				runHelper = !runHelper;
 			}
 			else if (mode == 5) {
-
+				pointerPosition++;
+				pointerPosition %= 3;
 			}
 		}
 
@@ -316,11 +329,6 @@ void MainConsole::compute(double elapsedTime) {
 				}
 			}
 			else if (mode == 1) {
-				moveCursor(15, 4);
-				print(std::string(W - 15, ' '));
-
-				mode = 0;
-				
 				if (cachex != 30) {
 					std::string name = grid[4].substr(30, cachex - 30);
 
@@ -331,11 +339,17 @@ void MainConsole::compute(double elapsedTime) {
 						<< machine.instructionRegister.toString() << ' ' << machine.addressRegister.toString() << ' '
 						<< machine.stackPointer.toString() << '\n';
 					savedFile << input.toString() << ' ' << output.toString() << '\n';
+					savedFile << iterIndex << ' ' << runHelper << ' ' << startAddress.toString() << '\n';
 
 					for (Cell i = 0; i <= Trite::T2 - 1; ++i) {
 						savedFile << machine[i].toString() << '\n';
 					}
 				}
+
+				moveCursor(15, 4);
+				print(std::string(W - 15, ' '));
+
+				mode = 0;
 			}
 			else if (mode == 2) {
 				mode = 0;
@@ -349,6 +363,7 @@ void MainConsole::compute(double elapsedTime) {
 					>> machine.instructionRegister >> machine.addressRegister
 					>> machine.stackPointer;
 				savedFile >> input >> output;
+				savedFile >> iterIndex >> runHelper >> startAddress;
 
 				for (Cell i = 0; i <= Trite::T2 - 1; ++i) {
 					savedFile >> machine[i];
@@ -360,14 +375,8 @@ void MainConsole::compute(double elapsedTime) {
 				clear();
 				begin();
 			}
-			else if (mode == 3) {
+			else if (mode >= 3) {
 				mode = 0;
-			}
-			else if (mode == 4) {
-				
-			}
-			else if (mode == 5) {
-
 			}
 		}
 
@@ -398,6 +407,32 @@ void MainConsole::compute(double elapsedTime) {
 			}
 
 			cachex = x, cachey = y;
+		}
+
+		if (mode == 5) {
+			if (key == 'a') {
+				if (pointerPosition == 0) {
+					startAddress.T1 = startAddress.T1 + Trite(Trite::T1 - 1);
+				}
+				else if (pointerPosition == 1) {
+					startAddress.T2 = startAddress.T2 + Trite(Trite::T1 - 1);
+				}
+				else if (pointerPosition == 2) {
+					startAddress.T3 = startAddress.T3 + Trite(Trite::T1 - 1);
+				}
+			}
+
+			if (key == 'd') {
+				if (pointerPosition == 0) {
+					startAddress.T1 = startAddress.T1 + 1;
+				}
+				else if (pointerPosition == 1) {
+					startAddress.T2 = startAddress.T2 + 1;
+				}
+				else if (pointerPosition == 2) {
+					startAddress.T3 = startAddress.T3 + 1;
+				}
+			}
 		}
 	}
 
@@ -605,6 +640,25 @@ void MainConsole::display(double elapsedTime) {
 
 			moveCursor(31, 10);
 			print(runHelper ? "ON" : "OFF");
+		}
+
+		if (mode == 5) {
+			moveCursor(30, 12);
+			print(Cell::convTrite(startAddress.T1));
+			moveCursor(32, 12);
+			print(Cell::convTrite(startAddress.T2));
+			moveCursor(34, 12);
+			print(Cell::convTrite(startAddress.T3));
+
+			moveCursor(30, 13);
+			for (int i = 0; i < 3; i++) {
+				print(i == pointerPosition ? "^" : " ");
+				moveCursor(2, 0, true);
+			}
+		}
+		else {
+			moveCursor(30, 13);
+			print(std::string(5, ' '));
 		}
 	}
 }
