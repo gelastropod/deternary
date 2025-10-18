@@ -30,6 +30,7 @@ int randomNumber(int a, int b) {
 
 const std::vector<Task> MainConsole::tasks = {
 	[](int testNumber) {
+		// Task 0: Cat program
 		Test test;
 		int x = randomNumber(0, Trite::T3);
 		test.inputs.push(x);
@@ -37,12 +38,46 @@ const std::vector<Task> MainConsole::tasks = {
 		return test;
 	},
 	[](int testNumber) {
+		// Task 1: Addition
+		Test test;
+		int x = randomNumber(0, Trite::T3);
+		int y = randomNumber(0, Trite::T3);
+		test.inputs.push(x);
+		test.inputs.push(y);
+		test.outputs.push((x + y) % Trite::T3);
+		return test;
+	},
+	[](int testNumber) {
+		// Task 2: Maximum
 		Test test;
 		int x = randomNumber(0, Trite::T3);
 		int y = randomNumber(0, Trite::T3);
 		test.inputs.push(x);
 		test.inputs.push(y);
 		test.outputs.push(std::max(x, y));
+		return test;
+	},
+	[](int testNumber) {
+		// Task 3: Arithmetic
+		Test test;
+		int n = randomNumber(0, 4);
+		int x = randomNumber(0, Trite::T3);
+		int y = randomNumber(0, Trite::T3);
+		test.inputs.push(n);
+		test.inputs.push(x);
+		test.inputs.push(y);
+		if (n == 0) {
+			test.outputs.push((x + y) % Trite::T3);
+		}
+		else if (n == 1) {
+			test.outputs.push((x - y + Trite::T3) % Trite::T3);
+		}
+		else if (n == 2) {
+			test.outputs.push((x* y) % Trite::T3);
+		}
+		else if (n == 3) {
+			test.outputs.push(x / y);
+		}
 		return test;
 	}
 };
