@@ -578,7 +578,7 @@ void MainConsole::display(double elapsedTime) {
 			}
 		}
 		else {
-			for (int i = 0; i < 6; i++) {
+			for (int i = 0; i < 4; i++) {
 				moveCursor(40, 15 + i);
 				print("     ");
 			}

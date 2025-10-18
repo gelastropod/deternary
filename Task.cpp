@@ -39,8 +39,10 @@ const std::vector<Task> MainConsole::tasks = {
 	[](int testNumber) {
 		Test test;
 		int x = randomNumber(0, Trite::T3);
+		int y = randomNumber(0, Trite::T3);
 		test.inputs.push(x);
-		test.outputs.push(x);
+		test.inputs.push(y);
+		test.outputs.push(std::max(x, y));
 		return test;
 	}
 };

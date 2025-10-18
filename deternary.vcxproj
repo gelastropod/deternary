@@ -151,6 +151,7 @@
     <None Include="program.den" />
     <None Include="sample.in" />
     <None Include="sample.out" />
+    <None Include="Tasks.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
