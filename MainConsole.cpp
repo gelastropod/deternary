@@ -130,14 +130,17 @@ void MainConsole::compute(double elapsedTime) {
 				}
 
 				if (pointerType == 1) {
+					testProgress = 0;
 					machine.instructionRegister.T1 = machine.instructionRegister.T1 + Trite(Trite::T1 - 1);
 					machine[machine.instructionPointer].T1 = machine[machine.instructionPointer].T1 + Trite(Trite::T1 - 1);
 				}
 				if (pointerType == 2) {
+					testProgress = 0;
 					machine.instructionRegister.T2 = machine.instructionRegister.T2 + Trite(Trite::T1 - 1);
 					machine[machine.instructionPointer].T2 = machine[machine.instructionPointer].T2 + Trite(Trite::T1 - 1);
 				}
 				if (pointerType == 3) {
+					testProgress = 0;
 					machine.instructionRegister.T3 = machine.instructionRegister.T3 + Trite(Trite::T1 - 1);
 					machine[machine.instructionPointer].T3 = machine[machine.instructionPointer].T3 + Trite(Trite::T1 - 1);
 				}
@@ -165,14 +168,17 @@ void MainConsole::compute(double elapsedTime) {
 				}
 
 				if (pointerType == 1) {
+					testProgress = 0;
 					machine.instructionRegister.T1 = machine.instructionRegister.T1 + 1;
 					machine[machine.instructionPointer].T1 = machine[machine.instructionPointer].T1 + 1;
 				}
 				if (pointerType == 2) {
+					testProgress = 0;
 					machine.instructionRegister.T2 = machine.instructionRegister.T2 + 1;
 					machine[machine.instructionPointer].T2 = machine[machine.instructionPointer].T2 + 1;
 				}
 				if (pointerType == 3) {
+					testProgress = 0;
 					machine.instructionRegister.T3 = machine.instructionRegister.T3 + 1;
 					machine[machine.instructionPointer].T3 = machine[machine.instructionPointer].T3 + 1;
 				}
@@ -232,6 +238,7 @@ void MainConsole::compute(double elapsedTime) {
 		}
 
 		if (key == 'w' && !machine.running) {
+			testProgress = 0;
 			testing = !testing;
 		}
 	}
@@ -378,6 +385,7 @@ void MainConsole::compute(double elapsedTime) {
 
 				options = false;
 				pointerType = 0;
+				pointerPosition = 0;
 
 				clear();
 				begin();
