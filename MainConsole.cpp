@@ -283,6 +283,13 @@ void MainConsole::compute(double elapsedTime) {
 			}
 		}
 
+		if (key2 == 80 && mode == 1) {
+			moveCursor(15, 4);
+			print(std::string(W - 15, ' '));
+
+			mode = 0;
+		}
+
 		if (key2 == 72) {
 			if (mode == 0) {
 				if (pointerType == 0) {
