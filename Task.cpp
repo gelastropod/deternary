@@ -61,22 +61,33 @@ const std::vector<Task> MainConsole::tasks = {
 		// Task 3: Arithmetic
 		Test test;
 		int n = randomNumber(0, 4);
-		int x = randomNumber(0, Trite::T3);
-		int y = randomNumber(0, Trite::T3);
-		test.inputs.push(n);
-		test.inputs.push(x);
-		test.inputs.push(y);
 		if (n == 0) {
-			test.outputs.push((x + y) % Trite::T3);
+			int x = randomNumber(0, Trite::T3);
+			int y = randomNumber(x, Trite::T3);
+			test.inputs.push(x);
+			test.inputs.push(y - x);
+			test.outputs.push(y);
 		}
 		else if (n == 1) {
-			test.outputs.push((x - y + Trite::T3) % Trite::T3);
+			int x = randomNumber(0, Trite::T3);
+			int y = randomNumber(x, Trite::T3);
+			test.inputs.push(y);
+			test.inputs.push(x);
+			test.outputs.push(y - x);
 		}
 		else if (n == 2) {
-			test.outputs.push((x* y) % Trite::T3);
+			int x = randomNumber(0, Trite::T3);
+			int y = randomNumber(0, Trite::T3);
+			test.inputs.push(x);
+			test.inputs.push(y / x);
+			test.outputs.push(x* (y / x));
 		}
 		else if (n == 3) {
-			test.outputs.push(x / y);
+			int x = randomNumber(0, Trite::T3);
+			int y = randomNumber(0, Trite::T3);
+			test.inputs.push(x);
+			test.inputs.push(y);
+			test.outputs.push(y / x);
 		}
 		return test;
 	},

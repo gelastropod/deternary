@@ -66,13 +66,79 @@ Use the left and right arrows to move the cursor (indicated by the `^` or `>` sy
 - #### Task 0: Cat
 You are given an integer $X$. Output $X$.  
 Constraints:
-- $0\le X\le 19682$  
+- $0\le X\le19682$
 
-Input format:
+Sample input:
 ```
-$X$
+20
 ```
-Output format:
+Sample output:
 ```
-$X$
+20
+```
+
+- #### Task 1: Addition
+You are given two integers $A,B$. Output $A+B$.  
+Constraints:
+- $0\le A,B\le19682$
+- $0\le A+B\le19682$
+
+Sample input:
+```
+16 42
+```
+Sample output:
+```
+58
+```
+
+- #### Task 2: Maximum
+You are given two integers $A,B$. Output $\text{max}(A,B)$.  
+Constraints:
+- $0\le A,B\le19682$
+
+Sample input:
+```
+16 42
+```
+Sample output:
+```
+42
+```
+
+- #### Task 3: Arithmetic
+You are given three integers $A,B,C$. Based on the value of $C$, output the following:
+- $C=0$: $A+B$
+- $C=1$: $A-B$
+- $C=2$: $A\cdot B$
+- $C=3$: $\left\floor\frac{A}{B}\right\floor$
+
+Constraints:
+- $0\le A,B\le19682$
+- $0\le C\le3$
+- If $C=0$: $0\le A+B\le19682$
+- If $C=1$: $A\ge B$
+- If $C=2$: $0\le A\cdot B\le19682$
+
+Sample input:
+```
+9 10 0
+```
+Sample output:
+```
+19
+```
+
+- #### Task 4: Choice
+You are given three integers $A,B,C$. If $C$ is even, output $A$. Else, output $B$.  
+Constraints:
+- $0\le A,B,C\le19682$
+
+Sample input:
+```
+16 13 5
+```
+Sample output:
+```
+13
 ```
