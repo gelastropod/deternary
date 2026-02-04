@@ -111,7 +111,7 @@ You are given three integers $A,B,C$. Based on the value of $C$, output the foll
 - $C=0$: $A+B$
 - $C=1$: $A-B$
 - $C=2$: $A\cdot B$
-- $C=3$: $\left\floor\frac{A}{B}\right\floor$
+- $C=3$: $\left\lfloor\frac{A}{B}\right\rfloor$
 
 Constraints:
 - $0\le A,B\le19682$
