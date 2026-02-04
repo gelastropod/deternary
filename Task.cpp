@@ -30,7 +30,7 @@ int randomNumber(int a, int b) {
 
 const std::vector<Task> MainConsole::tasks = {
 	[](int testNumber) {
-		// Task 0: Cat program
+		// Task 0: Cat
 		Test test;
 		int x = randomNumber(0, Trite::T3);
 		test.inputs.push(x);
@@ -78,6 +78,18 @@ const std::vector<Task> MainConsole::tasks = {
 		else if (n == 3) {
 			test.outputs.push(x / y);
 		}
+		return test;
+	},
+	[](int testNumber) {
+		// Task 4: Choice
+		Test test;
+		int x = randomNumber(0, Trite::T3);
+		int y = randomNumber(0, Trite::T3);
+		int z = randomNumber(0, Trite::T3);
+		test.inputs.push(x);
+		test.inputs.push(y);
+		test.inputs.push(z);
+		test.outputs.push(z % 2 ? y : x);
 		return test;
 	}
 };
